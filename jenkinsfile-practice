@@ -1,0 +1,46 @@
+//def gv
+
+pipeline{
+    agent any
+    environment{
+        NEW_VERSION = '1.2.0'
+        SERVER_CREDENTIALS = credentials('server-user-credentials')
+    }
+    parameters {
+    string(name: 'BRANCH', defaultValue: 'main', description: 'Git branch to build')
+    choice(name: 'ENV', choices: ['dev', 'staging', 'prod'], description: 'Deployment environment')
+    booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Run unit tests?')
+}
+
+    stages{
+        stage("build"){
+            steps{
+                echo 'Building the application...'
+                echo "Building version ${NEW_VERSION}"
+            }
+            
+        }
+        stage("deploy"){
+            steps{
+                echo 'Deploying the application...'
+                echo "Deploying version ${NEW_VERSION} to the server"
+                withCredentials([
+                    usernamePassword(credentialsId: 'server-user-credentials', 
+                                     passwordVariable: 'SERVER_PASSWORD', 
+                                     usernameVariable: 'SERVER_USERNAME') 
+                ])->{
+                    sh '''
+                        echo "Connecting to server with username: $SERVER_USERNAME"
+                        echo "Deploying version $NEW_VERSION"
+                        # Simulate deployment command
+                        echo "Deployment successful!"
+                    '''
+                }
+            
+            }
+        }
+    }
+
+
+
+}
