@@ -28,7 +28,7 @@ pipeline{
                     usernamePassword(credentialsId: 'server-user-credentials', 
                                      passwordVariable: 'SERVER_PASSWORD', 
                                      usernameVariable: 'SERVER_USERNAME') 
-                ])->{
+                ]) {
                     sh '''
                         echo "Connecting to server with username: $SERVER_USERNAME"
                         echo "Deploying version $NEW_VERSION"
