@@ -29,7 +29,9 @@ pipeline{
 		stage("build image"){
 			steps{
 				script{
-					buildImage 'okoro/demo-java-app:java-mav-2.1'
+					buildImage 'okoro/demo-java-app:java-mav-2.2'
+					dockerLogin()
+					dockerPush 'okoro/demo-java-app:java-mav-2.2'
 				}
 
 			}
