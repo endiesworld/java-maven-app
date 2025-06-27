@@ -29,7 +29,7 @@ pipeline{
 		stage("build image"){
 			steps{
 				script{
-					buildImage()
+					buildImage 'okoro/demo-java-app:java-mav-2.1'
 				}
 
 			}
