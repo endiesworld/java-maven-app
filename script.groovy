@@ -14,7 +14,7 @@
 
 def deployApp() {
     echo 'deploying the application...'
-    echo 'deploying the application...'
+    echo 'deploying the application for the second time...'
 }
 
 return this
