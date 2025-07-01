@@ -24,6 +24,12 @@ pipeline{
 			steps{
 				script{
 					gv = load "script.groovy"
+					sh 'mvn build-helper:parse-version versions:set \
+					-DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+					versions:commit'
+					def matcher = readFile('pom.xml') =~ '<version>(.+?)</version>'
+					def version = matcher ? matcher[0][1] : 'unknown'
+					env.IMAGE_NAME = "$version-$BUILD_NUMBER"
 				}
 				
 			}
@@ -31,6 +37,7 @@ pipeline{
 		stage("build jar"){
 			steps{
 				script{
+					sh 'mvn clean package'
 					buildJar()
 				}
 				
@@ -39,9 +46,9 @@ pipeline{
 		stage("build image"){
 			steps{
 				script{
-					buildImage 'okoro/demo-java-app:java-mav-2.3'
+					buildImage "okoro/demo-java-app:java-mav-${env.IMAGE_NAME}"
 					dockerLogin()
-					dockerPush 'okoro/demo-java-app:java-mav-2.3'
+					dockerPush "okoro/demo-java-app:java-mav-${env.IMAGE_NAME}"
 				}
 
 			}
