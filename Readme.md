@@ -267,6 +267,3 @@ jenkins-shared-library/
 └── ...
 ```
 
----
-
-Would you like a starter template for `jenkins-shared-library` with working examples of `vars/`, `src/`, and `resources/`?
