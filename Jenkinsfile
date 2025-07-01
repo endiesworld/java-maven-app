@@ -11,7 +11,7 @@ library identifier: 'jenkins-shared-library@main', retriever: modernSCM([
     ]
 ])
 
-// Test to auto trigger a build
+
 def gv
 
 pipeline{
