@@ -32,7 +32,6 @@ pipeline{
                     sh '''
                         echo "Connecting to server with username: $SERVER_USERNAME"
                         echo "Deploying version $NEW_VERSION"
-                        # Simulate deployment command
                         echo "Deployment successful!"
                     '''
                 }
