@@ -62,9 +62,7 @@ pipeline{
 		}
 		stage("commit version update"){
 			steps{
-                echo 'Commiting update on pom file to github...'
-                
-                withCredentials([
+                    withCredentials([
                     usernamePassword(credentialsId: 'github-PAT', 
                                      passwordVariable: 'PASS', 
                                      usernameVariable: 'USER') 
