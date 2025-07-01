@@ -60,6 +60,29 @@ pipeline{
 				}
 			}
 		}
+		stage("commit version update"){
+			steps{
+                echo 'Commiting update on pom file to github...'
+                
+                withCredentials([
+                    usernamePassword(credentialsId: 'github-PAT', 
+                                     passwordVariable: 'PASS', 
+                                     usernameVariable: 'USER') 
+                ]) {
+					sh 'git config --global user.email "jenkins@example"'
+					sh 'git config --global user.name "Jenkins CI"'
+					sh 'git status'
+					sh 'git branch'
+					sh 'git config --list'
+                    sh "git remote set-url origin https://${USER}:${PASS}@github.com/endiesworld/java-maven-app.git"
+					sh 'git add .'
+					sh 'git commit -m "CI: Update version in pom.xml file"'
+					sh 'git push origin HEAD:jenkins-jobs'
+					
+                }
+            
+            }
+		}
 	}
 }
 
