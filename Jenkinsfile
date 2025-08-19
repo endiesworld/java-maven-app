@@ -73,7 +73,7 @@ pipeline{
                     sh "git remote set-url origin https://${USER}:${PASS}@github.com/endiesworld/java-maven-app.git"
 					sh 'git add .'
 					sh 'git commit -m "CI: Update version in pom.xml file"'
-					sh 'git push origin HEAD:refs/heads/jenkins-jobs'
+					//sh 'git push origin HEAD:refs/heads/jenkins-jobs'
 					
                 }
             
