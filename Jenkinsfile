@@ -1,15 +1,6 @@
 #!/user/bin/env groovy
 
-// @Library('jenkins-shared-library')
-library identifier: 'jenkins-shared-library@main', retriever: modernSCM([
-    $class: 'GitSCMSource',              // use Git source
-    id: 'jenkins-shared-library',        // unique ID for tracking
-    remote: 'https://github.com/endiesworld/jenkins-shared-library.git',
-    credentialsId: 'github-PAT',         // your GitHub token in Jenkins
-    // traits: [
-    //     [$class: 'jenkins.plugins.git.traits.BranchDiscoveryTrait']  // This is the fix!
-    // ]
-])
+@Library('jenkins-shared-library')
 
 
 def gv
@@ -17,7 +8,7 @@ def gv
 pipeline{
 	agent any
 	tools{
-		maven 'maven-3.9'
+		maven 'maven-3.9.11'
 	}
 	stages{
         stage("init"){
@@ -77,7 +68,7 @@ pipeline{
                     sh "git remote set-url origin https://${USER}:${PASS}@github.com/endiesworld/java-maven-app.git"
 					sh 'git add .'
 					sh 'git commit -m "CI: Update version in pom.xml file"'
-					sh 'git push origin HEAD:refs/heads/jenkins-jobs'
+					//sh 'git push origin HEAD:refs/heads/jenkins-jobs'
 					
                 }
             
