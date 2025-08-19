@@ -1,1 +1,55 @@
-#!/bin/bash groovy
+#!/user/bin/env groovy
+
+@Library('jenkins-shared-library')
+
+def gv
+
+pipeline{
+	agent any
+	tools{
+		maven 'maven-3.9.11'
+	}
+	stages{
+        stage("init"){
+			steps{
+				script{
+					gv = load "script.groovy"
+					sh 'mvn build-helper:parse-version versions:set \
+					-DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+					versions:commit'
+					def matcher = readFile('pom.xml') =~ '<version>(.+?)</version>'
+					def version = matcher ? matcher[0][1] : 'unknown'
+					env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+				}
+				
+			}
+		}
+		stage("build jar"){
+			steps{
+				script{
+					sh 'mvn clean package'
+					buildJar()
+				}
+				
+			}
+		}
+		stage("build image"){
+			steps{
+				script{
+					buildImage "okoro/demo-java-app:java-mav-${env.IMAGE_NAME}"
+					dockerLogin()
+					dockerPush "okoro/demo-java-app:java-mav-${env.IMAGE_NAME}"
+				}
+
+			}
+		}
+		stage("deploy"){
+			steps{
+				script{
+					sh 'Image is being deployed here...'
+				}
+			}
+		}
+	
+	}
+}
