@@ -24,6 +24,7 @@ pipeline{
 			steps{
 				script{
 					echo "building the the docker image..."
+					echo "building the the docker image..."
 					
 				}
 				
